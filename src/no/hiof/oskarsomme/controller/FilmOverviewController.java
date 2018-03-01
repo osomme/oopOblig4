@@ -1,12 +1,14 @@
 package no.hiof.oskarsomme.controller;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.InputEvent;
 import no.hiof.oskarsomme.MainJavaFX;
 import no.hiof.oskarsomme.model.media.film.Film;
+
+import java.util.Collections;
 
 public class FilmOverviewController {
     @FXML
@@ -19,9 +21,9 @@ public class FilmOverviewController {
     @FXML
     private ListView<Film> filmList;
 
-
     private MainJavaFX main;
     private Film currentTarget;
+    private ObservableList<Film> films;
 
     @FXML
     private void initialize() {
@@ -59,10 +61,11 @@ public class FilmOverviewController {
         // Sets info with values of first film in list of films.
         setInfoListing(Film.LIST_OF_FILMS.get(0));
         // At launch the list is sorted by title (a-z)
+        films = main.getFilms();
         sortByTitleAscending();
     }
 
-    public void getInfo(InputEvent mouseEvent) {
+    public void getInfo() {
         currentTarget = filmList.getFocusModel().getFocusedItem();
 
         if(main.getFilms().size() > 0) {
@@ -105,43 +108,44 @@ public class FilmOverviewController {
 
     @FXML
     private void sortByTitleAscending() {
-        main.sortByTitleAscending();
+        Collections.sort(films);
         setSelectedContextMenu(contextSortTitleAsc);
     }
 
     @FXML
     private void sortByTitleDescending() {
-        main.sortByTitleDescending();
+        Collections.sort(films);
+        Collections.reverse(films);
         setSelectedContextMenu(contextSortTitleDesc);
     }
 
     @FXML
     private void sortByReleaseDateAscending() {
-        main.sortByReleaseDateAscending();
+        Collections.sort(films, Film.sortByReleaseDate);
         setSelectedContextMenu(contextSortReleaseAsc);
     }
 
     @FXML
     private void sortByReleaseDateDescending() {
-        main.sortByReleaseDateDescending();
+        Collections.sort(films, Film.sortByReleaseDate);
+        Collections.reverse(films);
         setSelectedContextMenu(contextSortReleaseDesc);
     }
 
     @FXML
     private void sortByRuntimeAscending() {
-        main.sortByRuntimeAscending();
+        Collections.sort(films, Film.sortByRuntime);
         setSelectedContextMenu(contextSortRuntimeAsc);
     }
 
     @FXML
     private void sortByRuntimeDescending() {
-        main.sortByRuntimeDescending();
+        Collections.sort(films, Film.sortByRuntime);
+        Collections.reverse(films);
         setSelectedContextMenu(contextSortRuntimeDesc);
     }
 
-
-
-    public ListView<Film> getFilmList() {
+    public ListView<Film> getFilmListView() {
         return filmList;
     }
 }

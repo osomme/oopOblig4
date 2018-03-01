@@ -39,7 +39,7 @@ public class Film extends Production implements Comparable<Film>{
 
     @Override
     public int compareTo(Film o) {
-        return this.getTitle().compareTo(o.getTitle());
+        return this.getTitle().compareToIgnoreCase(o.getTitle());
     }
 
     public static Comparator<Film> sortByReleaseDate = new Comparator<Film>() {

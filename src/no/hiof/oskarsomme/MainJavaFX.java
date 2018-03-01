@@ -13,7 +13,6 @@ import no.hiof.oskarsomme.controller.FilmEditController;
 import no.hiof.oskarsomme.controller.FilmOverviewController;
 import no.hiof.oskarsomme.model.media.film.Film;
 import java.time.LocalDate;
-import java.util.Collections;
 
 public class MainJavaFX extends Application {
     private ObservableList<Film> films = FXCollections.observableArrayList();
@@ -57,13 +56,13 @@ public class MainJavaFX extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
 
         goToFilmListing();
     }
 
-    public void goToFilmListing() {
+    private void goToFilmListing() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("view/FilmOversikt.fxml"));
@@ -81,6 +80,7 @@ public class MainJavaFX extends Application {
             primaryStage.setScene(primaryScene);
             primaryStage.show();
         } catch (Exception e) {
+            e.printStackTrace();
             fxmlLoadingErrorBox(e);
         }
     }
@@ -103,14 +103,16 @@ public class MainJavaFX extends Application {
             FilmEditController fec = loader.getController();
             fec.setStage(editMenu);
             fec.setFilm(film);
-
             editMenu.showAndWait();
+
+            /* After dialogbox is closed: */
 
             // Updates info in FilmOverview.
             filmOverviewController.setInfoListing(film);
             // Forces a refresh of the list in FilmOverview.
-            filmOverviewController.getFilmList().refresh();
+            filmOverviewController.getFilmListView().refresh();
         } catch (Exception e) {
+            e.printStackTrace();
             fxmlLoadingErrorBox(e);
         }
     }
@@ -131,34 +133,7 @@ public class MainJavaFX extends Application {
         Alert errorBox = new Alert(Alert.AlertType.ERROR);
         errorBox.setTitle("Something went wrong...");
         errorBox.setHeaderText(null);
-        errorBox.setContentText("FXML " + e.getMessage());
+        errorBox.setContentText(e.getMessage());
         errorBox.showAndWait();
-    }
-
-    public void sortByTitleAscending() {
-        Collections.sort(films);
-    }
-
-    public void sortByTitleDescending() {
-        Collections.sort(films);
-        Collections.reverse(films);
-    }
-
-    public void sortByReleaseDateAscending() {
-        Collections.sort(films, Film.sortByReleaseDate);
-    }
-
-    public void sortByReleaseDateDescending() {
-        Collections.sort(films, Film.sortByReleaseDate);
-        Collections.reverse(films);
-    }
-
-    public void sortByRuntimeAscending() {
-        Collections.sort(films, Film.sortByRuntime);
-    }
-
-    public void sortByRuntimeDescending() {
-        Collections.sort(films, Film.sortByRuntime);
-        Collections.reverse(films);
     }
 }
