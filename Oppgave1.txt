@@ -1,0 +1,22 @@
+JavaFX:
+JavaFX er en java-platform som brukes til å lage GUI for desktop applikasjoner.
+
+Anonym klasse:
+En anonym klasse er en klasse som både defineres og instansieres der og da.
+
+MVC:
+MVC er en modell som beskriver hvordan en applikasjon kan designes.
+Modellen består av tre komponenter:
+
+Model:
+Model-komponenten er den delen som har ansvar for data og "indre" logikk i programmet.
+
+Controller:
+Controlleren har ansvar for logikken som har med brukergrensesnittet å gjøre. Controlleren
+har styrer hva som skjer dersom knapper blir trykket osv.
+
+View:
+View er selve grensesnittet.
+
+Sammen utgjør disse tre komponentene et program med GUI. Controlleren kobler sammen modeller
+med grensesnittet.
